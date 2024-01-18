@@ -1,11 +1,17 @@
-import express, { Application, json, urlencoded, Router} from 'express';
+import express, {
+    Application,
+    json,
+    urlencoded,
+    Router
+} from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import { UserRouter } from './router/user.router';
+import { ConfigServer } from './config/config';
 
-class ServerBootstrap {
+class ServerBootstrap extends ConfigServer {
     public app: Application = express();
-    private port: number = 3000;
+    private port: number = this.getNumberEnv('PORT');
 
     /**
      * Recuerda que dentro del constructor de una clase, podemos
@@ -15,6 +21,12 @@ class ServerBootstrap {
      * instancia de new ServerBotstrap();
      */
     constructor() {
+        /**
+         * Usamos el metodo super() para poder ejecutar el codigo
+         * del constructor de la clase ConfigServer de la cual
+         * estamos herdando
+         */
+        super();
         /**
          * Aqui mismo podemos definir las configuraciones del
          * servidor de express antes de que este se inicialice,
