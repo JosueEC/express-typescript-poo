@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+  mysqldb:
+    image: mysql:5.7
+    container_name: mysqldb
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+    volumes:
+    # Esta instruccion para un volumen de docker indica lo siguiente:
+    # Indicamos que se cree un volumen, en el cual vamos a copiar
+    # un archivo dentro de ese volumen y lo vamos a ejecutar.
+
+    # Este archivo es un script .sql el cual crea nuestra base de
+    # datos si esta no existe. Este archivo lo creamos en una carpeta
+    # de nuestro proyecto y lo copiamos y ejecutamos de la siguiente
+    # forma:
+      - /mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --init-file /docker-entrypoint-initdb.d/init.sql
